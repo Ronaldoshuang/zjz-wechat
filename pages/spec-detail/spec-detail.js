@@ -30,8 +30,8 @@ Page({
                 } = this.data.data
                 var file = result.tempFiles[0];
                 compress(file.tempFilePath, 1024*1024, 80, path=> {
-                  generateBase64AlphaPhoto({
-                    image_base64: wx.getFileSystemManager().readFileSync(path, "base64"),
+                  idphoto({
+                    input_image: wx.getFileSystemManager().readFileSync(path),
                     width: pix_width,
                     height: pix_height
                   }).then(res => {
