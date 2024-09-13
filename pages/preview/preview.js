@@ -1,4 +1,4 @@
-const { addUserPhotoWithBase64Alpha } = require("../../api/user_photo.js");
+const { addUserPhotoWithBase64Alpha,addBackground } = require("../../api/user_photo.js");
 import settings from "../../settings"
 import Dialog from '@vant/weapp/dialog/dialog'
 var app = getApp();
@@ -99,8 +99,8 @@ Page({
         g,
         b
       } = this.hexToRgb(this.data.color)
-      addUserPhotoWithBase64Alpha({
-        image_base64: app.globalData.alphaImage, 
+        addBackground({
+            input_image_base64: app.globalData.alphaImage,
         r: r, 
         g: g, 
         b: b,
@@ -111,10 +111,37 @@ Page({
         pix_width: this.data.pix_width,
         pix_height: this.data.pix_height,
       }).then(result => {
-        wx.hideLoading()
-        wx.navigateTo({
-          url: "../save-image/save-image?image=" + result.url + "&size=" + result.size
-        });
+            var filepath = wx.env.USER_DATA_PATH+'/test.png';
+            wx.getFileSystemManager().writeFile({
+                filePath: filepath,
+                data: result.image_base64,
+                encoding:'base64',
+                success: res => {
+                    wx.saveImageToPhotosAlbum({
+                        filePath: filepath,
+                        success: function(e) {
+                            wx.showToast({
+                                title: "保存成功，可前往【手机相册】中查看",
+                                icon: "none",
+                                duration: 2000
+                            });
+                        },
+                        fail: function(e) {
+                            console.log(e)
+                            "saveImageToPhotosAlbum:fail cancel" != e.errMsg ? wx.showModal({
+                                content: "请打开相册权限",
+                                confirmText: "去设置",
+                                success: function(e) {
+                                    e.confirm && wx.openSetting();
+                                }
+                            }) : wx.showToast({
+                                title: "[4003] 保存失败",
+                                icon: "none"
+                            });
+                        }
+                    });
+                }
+            })
       }).catch(e => {
         wx.hideLoading()
         console.log(e)

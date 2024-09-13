@@ -1,4 +1,5 @@
 import request from './request'
+import request1 from './request1'
 
 export const addUserPhoto = (data) => request.post('/api/v1/user_photo', data)
 export const updateUserPhoto = (id, data) => request.patch('/api/v1/user_photo/' + id, data)
@@ -8,3 +9,6 @@ export const listUserPhoto = (data) => request.get('/api/v1/user_photo', data)
 
 export const addUserPhotoWithAlpha = (data) => request.post('/api/v1/user_photo/create_with_alpha', data)
 export const addUserPhotoWithBase64Alpha = (data) => request.post('/api/v1/user_photo/create_with_base64_alpha', data)
+
+
+export const addBackground = (data) => request1.post('/v1/add_background', data)

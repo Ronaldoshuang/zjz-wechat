@@ -8,8 +8,6 @@ class Request1 {
   post(url, data) {
     return this.request1('POST', url, data)
   }
-
-
   request1(method, url, data) {
     return new Promise((resolve, reject) => {
       wx.request({
@@ -28,15 +26,15 @@ class Request1 {
             })
             return
           }
-          if (res.data.status != 2000) {
+          if (!res.data.status) {
             console.log("bussiness code error, data: "+ res.data)
             wx.showToast({
-              title: '[' + res.data.status + '] ' + res.data.remark,
+              title: '请联系管理员' ,
               icon: 'none'
             })
             return
           }
-          resolve(res.data.data)
+          resolve(res.data)
         },
         fail: (err) => reject(err),
       })
