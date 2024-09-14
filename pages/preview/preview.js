@@ -66,11 +66,7 @@ Page({
           duration: 2000
         });
       }
-      return {
-        r: parseInt('0x' + hex.slice(1, 3)),
-        g: parseInt('0x' + hex.slice(3, 5)),
-        b: parseInt('0x' + hex.slice(5, 7)),
-      }
+      return hex
     },
     save: function() {
       if (adEnable && !this.data.skipAd) {
@@ -94,17 +90,10 @@ Page({
         title: "制作中...",
         mask: true
       });
-      const {
-        r,
-        g,
-        b
-      } = this.hexToRgb(this.data.color)
         addBackground({
             input_image_base64: app.globalData.alphaImage,
-        r: r, 
-        g: g, 
-        b: b,
-        openid: this.data.openid,
+            color: this.hexToRgb(this.data.color),
+            openid: this.data.openid,
         name: this.data.name,
         width: this.data.width,
         height: this.data.height,
