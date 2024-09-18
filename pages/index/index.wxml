@@ -1,4 +1,4 @@
-<header nav="{{false}}" title="快图证件照"></header>
+<header nav="{{false}}" title="AI最美证件照"></header>
 
 <view style="display: flex; flex-direction: column;">
   <van-search

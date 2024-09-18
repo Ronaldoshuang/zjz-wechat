@@ -65,9 +65,14 @@ Page({
       })
     },
     gotochangeBg: function() {
-      wx.navigateTo({
-        url: "../change-bg/change-bg"
-      })
+        wx.showToast({
+            title: "功能正在维护，敬请期待！",
+            icon: "none",
+            duration: 2000
+        });
+      // wx.navigateTo({
+      //   url: "../change-bg/change-bg"
+      // })
     },
     gotoSearch: function() {
       wx.navigateTo({
@@ -106,7 +111,7 @@ Page({
     },
     onShareAppMessage: function() {
         return {
-            title: "快图证件照",
+            title: "AI最美证件照",
             path: "/pages/index/index"
         }
     }

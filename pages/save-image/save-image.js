@@ -54,7 +54,7 @@ Page({
     onShareAppMessage: function() {
         return {
             path: "/pages/index/index",
-            title: "快图证件照"
+            title: "AI最美证件照"
         };
     }
 });
