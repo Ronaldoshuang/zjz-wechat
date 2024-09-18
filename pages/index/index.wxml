@@ -5,7 +5,7 @@
       disabled 
       bind:click-input = "gotoSearch"
       shape="round"
-      placeholder="搜索证件照名称、尺寸"
+      placeholder="搜索证件照名称"
       style="margin:0rpx 10rpx;"
     />
 

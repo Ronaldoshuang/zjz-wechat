@@ -15,7 +15,8 @@ App({
       wx.login({
         success: res => {
           login({code: res.code}).then(res => {
-            this.globalData.openid = res.openid
+
+            this.globalData.openid = res.data
             // wx.setStorage({
             //   key: constants.TOKEN,
             //   data: JSON.stringify(s.data.data)
