@@ -5,6 +5,7 @@ var app = getApp()
 Page({
     data: {},
     onLoad: function(e) {
+        app.globalData.spec.bg_colors= ["white", "lightblue", "blue", "red", "gray"];
         this.setData({
             data: app.globalData.spec
         });

@@ -26,11 +26,9 @@
   <view style="margin: 0rpx 35rpx 0rpx 35rpx">
     <van-tabs active="{{ active }}" color="#4E47FD" title-active-color="#4E47FD" line-width="40rpx" ellipsis="false" bind:change="clickTab">
       <van-tab title="热门" name="99" title-style="font-size: {{ active==99?32:28 }}rpx; font-weight: 700;"></van-tab>
-      <van-tab title="寸照" name="6" title-style="font-size: {{ active==6?32:28 }}rpx; font-weight: 700;"></van-tab>
-      <van-tab title="教资" name="3" title-style="font-size: {{ active==3?32:28 }}rpx; font-weight: 700;"></van-tab>
-      <van-tab title="建筑" name="4" title-style="font-size: {{ active==4?32:28 }}rpx; font-weight: 700;"></van-tab>
-      <van-tab title="公务员" name="2" title-style="font-size: {{ active==2?32:28 }}rpx; font-weight: 700;"></van-tab>
-      <van-tab title="事业编" name="5" title-style="font-size: {{ active==5?32:28 }}rpx; font-weight: 700;"></van-tab>
+      <van-tab title="常用寸照" name="1" title-style="font-size: {{ active==6?32:28 }}rpx; font-weight: 700;"></van-tab>
+      <van-tab title="各类签证" name="2" title-style="font-size: {{ active==3?32:28 }}rpx; font-weight: 700;"></van-tab>
+      <van-tab title="各类证件" name="3" title-style="font-size: {{ active==4?32:28 }}rpx; font-weight: 700;"></van-tab>
     </van-tabs>
     <spec bind:chooseSpec="gotoSpecDetail" data="{{item}}" data-spec="{{item}}" wx:for="{{specs}}" wx:key="index"></spec>
   </view>

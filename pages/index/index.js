@@ -23,7 +23,14 @@ Page({
           console.error(err)
         })
       }
-      this.loadHostList()
+        listPhotoSize({
+            recommend: 1
+        }).then(result => {
+            console.log('返回的菜单', result)
+            this.setData({
+                specs: result.data
+            })
+        })
     },
     gotoSpecDetail: function(a) {
       app.globalData.spec = a.currentTarget.dataset.spec
@@ -71,13 +78,21 @@ Page({
       var name = o.detail.name
       this.setData({active: name})
       if (name==99) {
-        this.loadHostList()
+          listPhotoSize({
+              recommend: 1
+          }).then(result => {
+              console.log('返回的菜单', result)
+              this.setData({
+                  specs: result.data
+              })
+          })
       } else {
         listPhotoSize({
-          category_id: name
-        }).then(data => {
+          category: name
+        }).then(result => {
+            console.log('返回的菜单', result)
           this.setData({
-            specs: data
+            specs: result.data
           })
         })
       }

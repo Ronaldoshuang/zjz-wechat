@@ -8,6 +8,9 @@ class Request1 {
   post(url, data) {
     return this.request1('POST', url, data)
   }
+  get(url, data) {
+    return this.request1('GET', url, data)
+  }
   request1(method, url, data) {
     return new Promise((resolve, reject) => {
       wx.request({
