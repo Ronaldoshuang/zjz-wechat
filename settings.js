@@ -1,8 +1,8 @@
 module.exports = {
     skipAd: false,
     host: {
-        // photo: "https://photo.pixzone.cn"
-        photo: "http://127.0.0.1:8080"
+        // photo: "http://47.109.102.240:8080/api"
+        photo: "http://127.0.0.1/api"
     }
     
 };

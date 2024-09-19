@@ -32,7 +32,8 @@ Page({
                 var file = result.tempFiles[0];
                 compress(file.tempFilePath, 1024*1024, 80, path=> {
                     wx.uploadFile({
-                        url: 'http://localhost:8080/idphoto',
+                        // url: 'http://47.109.102.240:8080/idphoto',
+                        url: 'http://127.0.0.1/api/idphoto',
                         filePath: path, //imgSrc是微信小程wx.chooseImage等图片选择接口生成图片的tempFilePaths，无论后端能接收多少个这里都只能放一个，这是这个接口的限制
                         name: 'input_image',   //后端接收图片的字段名
                         //请求头

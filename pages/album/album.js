@@ -11,13 +11,13 @@ Page({
     onLoad: function(t) {
     },
     onShow: function() {
-      listUserPhoto({
-        openid: app.globalData.openid
-      }).then(res => {
-        this.setData({
-          photos: res,
-        })
-      })
+      // listUserPhoto({
+      //   openid: app.globalData.openid
+      // }).then(res => {
+      //   this.setData({
+      //     photos: res,
+      //   })
+      // })
     },
     onHide: function() {
     },
@@ -25,16 +25,16 @@ Page({
         this.loadMore();
     },
     loadMore: function() {
-        listUserPhoto({
-          openid: app.globalData.openid,
-          next_id: this.data.photos[this.data.photos.length - 1].id
-        }).then(res => {
-          if (res.length > 0) {
-            this.setData({
-              photos: this.data.photos.concat(res)
-            })
-          }
-        })
+        // listUserPhoto({
+        //   openid: app.globalData.openid,
+        //   next_id: this.data.photos[this.data.photos.length - 1].id
+        // }).then(res => {
+        //   if (res.length > 0) {
+        //     this.setData({
+        //       photos: this.data.photos.concat(res)
+        //     })
+        //   }
+        // })
     },
     tapPage: function() {
     },
