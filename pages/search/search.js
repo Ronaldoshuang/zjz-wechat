@@ -29,10 +29,10 @@ Page({
     var c = input.trim();
     if (c) {
       listPhotoSize({
-        name__icontains: c
-      }).then(data => {
+        name: c
+      }).then(res => {
         this.setData({
-          searchResults: data,
+          searchResults: res.data,
           showSearchResults: true
         })
       })
