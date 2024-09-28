@@ -59,7 +59,7 @@ Page({
                     pix_height: result.height 
                   })
                     wx.uploadFile({
-                        url: 'https://ai-zjz.cn/api/idphoto',
+                        url: settings.host.photo+'/idphoto',
                         filePath: file, //imgSrc是微信小程wx.chooseImage等图片选择接口生成图片的tempFilePaths，无论后端能接收多少个这里都只能放一个，这是这个接口的限制
                         name: 'input_image',   //后端接收图片的字段名
                         //请求头
