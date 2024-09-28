@@ -73,8 +73,8 @@ Page({
                         },
                         success(res) {
                             that.setData({
-                                imageBase64: JSON.parse(res.data).image_base64_hd,
-                                src: "data:image/png;base64," +JSON.parse(res.data).image_base64_hd,
+                                imageBase64: JSON.parse(res.data).image_base64,
+                                src: JSON.parse(res.data).image_base64,
                                 color: that.data.color ? that.data.color : "white"
                             })
                             wx.hideLoading()
@@ -130,16 +130,12 @@ Page({
           input_image_base64: this.data.imageBase64,
           color: this.hexToRgb(this.data.color),
         openid: app.globalData.openid,
-        name: "换底色",
-        width: 0,
-        height: 0,
-        pix_width: this.data.pix_width,
-        pix_height: this.data.pix_height,
+        name: "换底色"
       }).then(result => {
           var filepath = wx.env.USER_DATA_PATH+'/test.png';
           wx.getFileSystemManager().writeFile({
               filePath: filepath,
-              data: result.image_base64,
+              data: result.image_base64.replace('data:image/png;base64,', ''),
               encoding:'base64',
               success: res => {
                   wx.saveImageToPhotosAlbum({

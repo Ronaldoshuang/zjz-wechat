@@ -72,7 +72,7 @@ Page({
                             height: pix_height,
                         },
                         success(res) {
-                            app.globalData.alphaImage =JSON.parse(res.data).image_base64_hd;
+                            app.globalData.alphaImage =JSON.parse(res.data).image_base64;
                             wx.hideLoading()
                             wx.redirectTo({
                                 url: "../preview/preview"

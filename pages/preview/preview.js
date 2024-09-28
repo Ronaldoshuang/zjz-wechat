@@ -15,7 +15,7 @@ Page({
     },
     onLoad: function(t) {
         this.setData({
-            img: "data:image/png;base64," + app.globalData.alphaImage,
+            img:  app.globalData.alphaImage,
             openid: app.globalData.openid,
             name: app.globalData.spec.name,
             pix_width: app.globalData.spec.pix_width,
@@ -94,16 +94,12 @@ Page({
             input_image_base64: app.globalData.alphaImage,
             color: this.hexToRgb(this.data.color),
             openid: this.data.openid,
-        name: this.data.name,
-        width: this.data.width,
-        height: this.data.height,
-        pix_width: this.data.pix_width,
-        pix_height: this.data.pix_height,
+        name: this.data.name
       }).then(result => {
             var filepath = wx.env.USER_DATA_PATH+'/test.png';
             wx.getFileSystemManager().writeFile({
                 filePath: filepath,
-                data: result.image_base64,
+                data: result.image_base64.replace('data:image/png;base64,', ''),
                 encoding:'base64',
                 success: res => {
                     wx.saveImageToPhotosAlbum({
