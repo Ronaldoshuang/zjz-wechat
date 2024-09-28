@@ -56,25 +56,35 @@ Page({
             quality: "high",
             success: res => {
                 var file = res.tempImagePath;
-                compress(file, 2*1024*1024, 80, r=> {
-                  generateBase64AlphaPhoto({
-                    image_base64: wx.getFileSystemManager().readFileSync(file, "base64"),
-                    width: pix_width,
-                    height: pix_height
-                  }).then(res => {
-                    app.globalData.alphaImage = res.image_base64
-                    wx.hideLoading()
-                    wx.redirectTo({
-                        url: "../preview/preview"
-                    });
-                  }).catch(err => {
-                    wx.hideLoading()
-                    console.log(err)
-                    wx.showToast({
-                      title: '[5000] 拍摄制作失败，请重试或联系客服处理！',
-                      icon: 'none'
+                compress(file, 1024*1024, 80, path=> {
+                    wx.uploadFile({
+                        url: 'https://ai-zjz.cn/api/idphoto',
+                        filePath: path, //imgSrc是微信小程wx.chooseImage等图片选择接口生成图片的tempFilePaths，无论后端能接收多少个这里都只能放一个，这是这个接口的限制
+                        name: 'input_image',   //后端接收图片的字段名
+                        //请求头
+                        header: {
+                            'content-type': 'multipart/form-data',
+                        },
+                        //携带的其他参数可以放在这
+                        formData: {
+                            width: pix_width,
+                            height: pix_height,
+                        },
+                        success(res) {
+                            app.globalData.alphaImage =JSON.parse(res.data).image_base64_hd;
+                            wx.hideLoading()
+                            wx.redirectTo({
+                                url: "../preview/preview"
+                            });
+                        }
+                    }).catch(err => {
+                        wx.hideLoading()
+                        console.log(err)
+                        wx.showToast({
+                            title: '[5000] 拍摄制作失败，请重试或联系客服处理！',
+                            icon: 'none'
+                        })
                     })
-                  })
                 })
             },
             fail: err => {
