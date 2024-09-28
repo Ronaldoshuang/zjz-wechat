@@ -32,4 +32,10 @@
     </van-tabs>
     <spec bind:chooseSpec="gotoSpecDetail" data="{{item}}" data-spec="{{item}}" wx:for="{{specs}}" wx:key="index"></spec>
   </view>
+
+  <view>
+  	<button class="button-item" open-type="contact">
+  	    <image src="../../assets/icon/kefu1.png" class="img-plus-style"></image>
+  	 </button>
+  </view>
 </view>

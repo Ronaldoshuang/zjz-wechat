@@ -1,0 +1,16 @@
+.img-plus-style {
+    height: 80rpx;
+    width: 80rpx;
+    position: fixed;
+    bottom: 800rpx;
+    right: 13rpx;
+    opacity: 0.7
+}
+
+.zindex100{
+    z-index: 100
+    }
+
+.yc{
+    opacity: 0
+    }
