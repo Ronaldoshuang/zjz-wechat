@@ -1,6 +1,6 @@
 const { compress, downloadImageToPhotosAlbum } = require("../../utils");
 const { generateBase64AlphaPhoto } = require("../../api/photo");
-const { addUserPhotoWithBase64Alpha } = require("../../api/user_photo");
+const { addUserPhotoWithBase64Alpha,addBackground } = require("../../api/user_photo");
 import settings from "../../settings"
 import Dialog from '@vant/weapp/dialog/dialog'
 var app = getApp();
@@ -37,10 +37,11 @@ Page({
             console.log('user stop unfinsh')
           }
         })
-        adEnable = true
+        adEnable = false
       }
     },
     pickPhoto: function(t) {
+        const that = this; // 保存当前 this 的引用
       wx.chooseMedia({
         count: 1,
         mediaType: 'image',
@@ -57,17 +58,30 @@ Page({
                     pix_width: result.width,
                     pix_height: result.height 
                   })
-                  generateBase64AlphaPhoto({
-                    image_base64: wx.getFileSystemManager().readFileSync(file, "base64"),
-                    enable_cut: false,
-                  }).then(res => {
-                    this.setData({
-                      imageBase64: res.image_base64,
-                      src: "data:image/png;base64," + res.image_base64,
-                      color: this.data.color ? this.data.color : "white"
+                    wx.uploadFile({
+                        url: 'https://ai-zjz.cn/api/idphoto',
+                        filePath: file, //imgSrc是微信小程wx.chooseImage等图片选择接口生成图片的tempFilePaths，无论后端能接收多少个这里都只能放一个，这是这个接口的限制
+                        name: 'input_image',   //后端接收图片的字段名
+                        //请求头
+                        header: {
+                            'content-type': 'multipart/form-data',
+                        },
+                        //携带的其他参数可以放在这
+                        formData: {
+                            width: result.width,
+                            height: result.height,
+                        },
+                        success(res) {
+                            that.setData({
+                                imageBase64: JSON.parse(res.data).image_base64_hd,
+                                src: "data:image/png;base64," +JSON.parse(res.data).image_base64_hd,
+                                color: that.data.color ? that.data.color : "white"
+                            })
+                            wx.hideLoading()
+                        }
                     })
-                    wx.hideLoading()
-                  })
+
+
               },
               fail: err => {
                   console.log(err);
@@ -86,28 +100,35 @@ Page({
         })
     },
     hexToRgb(color) {
-      var hex = colors[color][0]
-      return {
-        r: parseInt('0x' + hex.slice(1, 3)),
-        g: parseInt('0x' + hex.slice(3, 5)),
-        b: parseInt('0x' + hex.slice(5, 7)),
-      }
+        var hex = "#ffffff"
+        if (color === "white") {
+            hex = "#ffffff"
+        } else if (color === "lightblue") {
+            hex = "#8ec5e9"
+        } else if (color === "blue") {
+            hex = "#1a8ae4"
+        } else if (color === "red") {
+            hex = "#c40c20"
+        } else if (color === "gray") {
+            hex = "#818892"
+        } else {
+            wx.showToast({
+                title: "[4002] 程序异常，请联系客服处理！",
+                icon: "none",
+                duration: 2000
+            });
+        }
+        return hex
     },
     internalSavePhoto: function() {
       wx.showLoading({
         title: "图片处理中...",
         mask: true
       });
-      const {
-        r,
-        g,
-        b
-      } = this.hexToRgb(this.data.color)
-      addUserPhotoWithBase64Alpha({
-        image_base64: this.data.imageBase64, 
-        r: r, 
-        g: g, 
-        b: b,
+
+        addBackground({
+          input_image_base64: this.data.imageBase64,
+          color: this.hexToRgb(this.data.color),
         openid: app.globalData.openid,
         name: "换底色",
         width: 0,
@@ -115,17 +136,45 @@ Page({
         pix_width: this.data.pix_width,
         pix_height: this.data.pix_height,
       }).then(result => {
-        wx.hideLoading()
-        const {url} = result
-        downloadImageToPhotosAlbum(url)
+          var filepath = wx.env.USER_DATA_PATH+'/test.png';
+          wx.getFileSystemManager().writeFile({
+              filePath: filepath,
+              data: result.image_base64,
+              encoding:'base64',
+              success: res => {
+                  wx.saveImageToPhotosAlbum({
+                      filePath: filepath,
+                      success: function(e) {
+                          wx.showToast({
+                              title: "保存成功，可前往【手机相册】中查看",
+                              icon: "none",
+                              duration: 2000
+                          });
+                      },
+                      fail: function(e) {
+                          console.log(e)
+                          "saveImageToPhotosAlbum:fail cancel" != e.errMsg ? wx.showModal({
+                              content: "请打开相册权限",
+                              confirmText: "去设置",
+                              success: function(e) {
+                                  e.confirm && wx.openSetting();
+                              }
+                          }) : wx.showToast({
+                              title: "[4003] 保存失败",
+                              icon: "none"
+                          });
+                      }
+                  });
+              }
+          })
       }).catch(e => {
-        wx.hideLoading()
-        console.log(e)
-        wx.showToast({
-          title: "[5003] 换底色异常，请重试或联系客服处理！",
-          icon: "none",
-          duration: 2000
-        });
+          wx.hideLoading()
+          console.log(e)
+          wx.showToast({
+              title: "[5003] 换底色异常，请重试或联系客服处理！",
+              icon: "none",
+              duration: 2000
+          });
       })
     },
     savePhoto: function() {

@@ -65,14 +65,14 @@ Page({
       })
     },
     gotochangeBg: function() {
-        wx.showToast({
-            title: "功能正在维护，敬请期待！",
-            icon: "none",
-            duration: 2000
-        });
-      // wx.navigateTo({
-      //   url: "../change-bg/change-bg"
-      // })
+        // wx.showToast({
+        //     title: "功能正在维护，敬请期待！",
+        //     icon: "none",
+        //     duration: 2000
+        // });
+      wx.navigateTo({
+        url: "../change-bg/change-bg"
+      })
     },
     gotoSearch: function() {
       wx.navigateTo({
