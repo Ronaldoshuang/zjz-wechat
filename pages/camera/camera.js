@@ -72,6 +72,14 @@ Page({
                             height: pix_height,
                         },
                         success(res) {
+                            if (res.statusCode >= 400) {
+                                console.log('无法识别到图片，请根据拍摄指南，重新上传图片',res);
+                                wx.showToast({
+                                    title: '无法识别到图片，请根据拍摄指南，重新上传图片',
+                                    icon: 'none'
+                                })
+                                return
+                            }
                             app.globalData.alphaImage =JSON.parse(res.data).image_base64;
                             wx.hideLoading()
                             wx.redirectTo({

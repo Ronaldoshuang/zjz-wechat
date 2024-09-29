@@ -72,12 +72,25 @@ Page({
                             height: result.height,
                         },
                         success(res) {
+                            if (res.statusCode >= 400) {
+                                console.log('无法识别到图片，请根据拍摄指南，重新上传图片',res);
+                                wx.showToast({
+                                    title: '无法识别到图片，请根据拍摄指南，重新上传图片',
+                                    icon: 'none'
+                                })
+                                return
+                            }
                             that.setData({
                                 imageBase64: JSON.parse(res.data).image_base64,
                                 src: JSON.parse(res.data).image_base64,
                                 color: that.data.color ? that.data.color : "white"
                             })
                             wx.hideLoading()
+                        }
+                        ,
+                        fail(err) {
+                            wx.hideLoading()
+                            wx.showToast({ title: '无法识别到图片，请根据拍摄指南，重新上传图片', icon: 'none' });
                         }
                     })
 
