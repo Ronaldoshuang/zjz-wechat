@@ -3,7 +3,16 @@
   "compileType": "miniprogram",
   "libVersion": "2.30.2",
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      {
+        "value": "resource",
+        "type": "folder"
+      },
+      {
+        "value": "README.md",
+        "type": "file"
+      }
+    ],
     "include": []
   },
   "setting": {
