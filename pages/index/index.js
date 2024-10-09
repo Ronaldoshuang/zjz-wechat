@@ -111,7 +111,7 @@ Page({
     },
     onShareAppMessage: function() {
         return {
-            title: "AI最美证件照",
+            title: "海马证件照",
             path: "/pages/index/index"
         }
     }

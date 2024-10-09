@@ -4,7 +4,7 @@
 
 # 项目介绍
 
-# <p align="center">AI最美证件照App</p>
+# <p align="center">海马证件照</p>
 <p align="center"><img src="./resource/6.png"></p>
 
 
